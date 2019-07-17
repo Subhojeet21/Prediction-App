@@ -1,0 +1,204 @@
+<aura:component controller="WorldCupController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" >
+    <aura:attribute name="matchId" type="Id"/>
+    <aura:attribute name="teams" type="List"/>
+    <aura:attribute name="players" type="List"/>
+    <aura:attribute name="playersOfTeam1" type="List"/>
+    <aura:attribute name="playersOfTeam2" type="List"/>
+    <aura:attribute name="isManOfMatchSelected" type="Boolean" default="false"/>
+    <aura:attribute name="isWinnerSelected" type="Boolean" default="false"/>
+    
+    <aura:attribute name="match2Id" type="Id"/>
+    <aura:attribute name="teams2" type="List"/>
+    <aura:attribute name="players2" type="List"/>
+    <aura:attribute name="players2OfTeam1" type="List"/>
+    <aura:attribute name="players2OfTeam2" type="List"/>
+    <aura:attribute name="isManOfMatchSelected2" type="Boolean" default="false"/>
+    <aura:attribute name="isWinnerSelected2" type="Boolean" default="false"/>
+    
+    <aura:attribute name="playerMap" type="Object"/>
+    <aura:attribute name="teamMap" type="Object"/>
+    <aura:attribute name="isVerificationSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="contactRefId" type="String" default=""/>
+    <aura:attribute name="matchPrediction" type="Match_Prediction__c" default="{'sobjectType':'Match_Prediction__c', 
+                                                                               'Match__c':'',
+                                                                               'Bidder__c':'',
+                                                                               'Winning_Team_Bid__c':'',
+                                                                               'ManOfMatch_Bid__c':''
+                                                                               }"/>
+    <aura:attribute name="matchPrediction2" type="Match_Prediction__c" default="{'sobjectType':'Match_Prediction__c', 
+                                                                               'Match__c':'',
+                                                                               'Bidder__c':'',
+                                                                               'Winning_Team_Bid__c':'',
+                                                                               'ManOfMatch_Bid__c':''
+                                                                               }"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:PredictionEvent" action="{!c.handlePostPrediction}"/>
+    <aura:handler event="c:RefVerifyEvent" action="{!c.onVerifyComplete}"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:spinner aura:id="spinnerId" alternativeText="Loading" variant="brand" size="large" class="slds-show" />
+    
+    <aura:if isTrue="{!v.isVerificationSuccess}">
+    <aura:if isTrue="{!not(empty(v.matchId))}">
+    	<lightning:card>
+            <lightning:tabset onselect="{!c.doInit}">
+                <lightning:tab label="Today's Match 1">
+                   <!-- Team 1 squad start -->
+                   <lightning:accordion allowMultipleSectionsOpen="true" >
+                       <div style="border:solid; background-color:#00801c6b;">
+                           <lightning:accordionSection name="{!v.teams[0]}" label="{!v.teams[0]}" >
+                               <div style="margin-left:40%; font-weight:bold; font-size: x-large; color:red;" >
+                                   <ui:outputText value="{!v.teams[0]}"/>
+                                   <lightning:formattedRichText class="{!v.teams[0]}" value="{!v.playersOfTeam1[0].Team__r.Flag_Icon__c}" onclick="{!c.onTeamClick}"/>
+                               </div>
+                               <lightning:layout multipleRows="true">
+                                <aura:iteration items="{!v.playersOfTeam1}" var="player">
+                                    <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                        <lightning:formattedRichText id="{!player.Id}" class="{!player.Name}" value="{!player.Picture__c}" onclick="{!c.onPlayerClick}"/>
+                                        <ui:outputText value="{!player.Name}"/>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                               </lightning:layout>
+                           </lightning:accordionSection>
+                       </div>
+                           
+                       <!-- Team 1 squad end -->
+                        
+                       <div style="margin-left:40%" >
+                            <img src="{!$Resource.Versus}" align="middle" size="small"/>
+                       </div>
+                       
+                      <!-- Team 2 squad start -->
+                            
+                      <div style="border:solid; background-color:#8076006b;">
+                          <lightning:accordionSection name="{!v.teams[1]}" label="{!v.teams[1]}">
+                              <div style="margin-left:40%; font-weight:bold; font-size: x-large; color:red;" >
+                                  <ui:outputText value="{!v.teams[1]}"/>
+                                  <lightning:formattedRichText class="{!v.teams[1]}" value="{!v.playersOfTeam2[0].Team__r.Flag_Icon__c}" onclick="{!c.onTeamClick}"/>
+                              </div>
+                              <lightning:layout multipleRows="true">
+                                <aura:iteration items="{!v.playersOfTeam2}" var="player">
+                                    <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                        <lightning:formattedRichText id="{!player.Id}" class="{!player.Name}" value="{!player.Picture__c}" onclick="{!c.onPlayerClick}"/>
+                                        <ui:outputText value="{!player.Name}"/>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                               </lightning:layout>
+                          </lightning:accordionSection>
+                       </div>
+                    </lightning:accordion>
+                   <!-- Team 2 squad end -->
+                </lightning:tab>
+                
+                <aura:if isTrue="{!not(empty(v.match2Id))}">
+                <lightning:tab label="Today's Match 2">
+                   <!-- Team 1 squad start -->
+                   <lightning:accordion allowMultipleSectionsOpen="true" >
+                       <div style="border:solid; background-color:#00801c6b;">
+                           <lightning:accordionSection name="{!v.teams2[0]}" label="{!v.teams2[0]}" >
+                               <div style="margin-left:40%; font-weight:bold; font-size: x-large; color:red;" >
+                                   <ui:outputText value="{!v.teams2[0]}"/>
+                                   <lightning:formattedRichText class="{!v.teams2[0]}" value="{!v.players2OfTeam1[0].Team__r.Flag_Icon__c}" onclick="{!c.onTeam2Click}"/>
+                               </div>
+                               <lightning:layout multipleRows="true">
+                                <aura:iteration items="{!v.players2OfTeam1}" var="player">
+                                    <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                        <lightning:formattedRichText id="{!player.Id}" class="{!player.Name}" value="{!player.Picture__c}" onclick="{!c.onPlayer2Click}"/>
+                                        <ui:outputText value="{!player.Name}"/>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                               </lightning:layout>
+                           </lightning:accordionSection>
+                       </div>
+                           
+                       <!-- Team 1 squad end -->
+                        
+                       <div style="margin-left:40%" >
+                            <img src="{!$Resource.Versus}" align="middle" size="small"/>
+                       </div>
+                       
+                      <!-- Team 2 squad start -->
+                            
+                      <div style="border:solid; background-color:#8076006b;">
+                          <lightning:accordionSection name="{!v.teams2[1]}" label="{!v.teams2[1]}">
+                              <div style="margin-left:40%; font-weight:bold; font-size: x-large; color:red;" >
+                                  <ui:outputText value="{!v.teams2[1]}"/>
+                                  <lightning:formattedRichText class="{!v.teams2[1]}" value="{!v.players2OfTeam2[0].Team__r.Flag_Icon__c}" onclick="{!c.onTeam2Click}"/>
+                              </div>
+                              <lightning:layout multipleRows="true">
+                                <aura:iteration items="{!v.players2OfTeam2}" var="player">
+                                    <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                        <lightning:formattedRichText id="{!player.Id}" class="{!player.Name}" value="{!player.Picture__c}" onclick="{!c.onPlayer2Click}"/>
+                                        <ui:outputText value="{!player.Name}"/>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                               </lightning:layout>
+                          </lightning:accordionSection>
+                       </div>
+                    </lightning:accordion>
+                   <!-- Team 2 squad end -->
+                </lightning:tab>
+                </aura:if>
+                
+                <lightning:tab label=" Your Predictions" title="Your Predictions">
+                    <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="Match 1">
+                        <div style="border:solid; background-color:#802f006b;">
+                        <lightning:accordionSection name="Match 1" label="Match 1">
+                            <div class="predictionTab">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                        Winner :
+                                        <lightning:formattedRichText value="{!v.matchPrediction.Winning_Team_Bid__r.Flag_Icon__c}" />
+                                        <ui:outputText value="{!v.matchPrediction.Winning_Team_Bid__r.Name}"/>
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                        Man of the match : 
+                                        <lightning:formattedRichText value="{!v.matchPrediction.ManOfMatch_Bid__r.Picture__c}" />
+                                        <ui:outputText value="{!v.matchPrediction.ManOfMatch_Bid__r.Name}"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </lightning:accordionSection>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(empty(v.match2Id))}">
+                            <div style="border:solid; background-color:#0080626b;">
+                            <lightning:accordionSection name="Match 2" label="Match 2">
+                                <div class="predictionTab">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                            Winner :
+                                            <lightning:formattedRichText value="{!v.matchPrediction2.Winning_Team_Bid__r.Flag_Icon__c}" />
+                                            <ui:outputText value="{!v.matchPrediction2.Winning_Team_Bid__r.Name}"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-large">
+                                            Man of the match : 
+                                            <lightning:formattedRichText value="{!v.matchPrediction2.ManOfMatch_Bid__r.Picture__c}" />
+                                            <ui:outputText value="{!v.matchPrediction2.ManOfMatch_Bid__r.Name}"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                        	</lightning:accordionSection>
+                            </div>
+                        </aura:if>
+                    </lightning:accordion>
+                    
+                </lightning:tab>
+                
+                <!--<lightning:tab label="Point's Chart">
+                    <iframe src="https://world-cup-dev-ed.my.salesforce.com/apex/WorldCupReportChart"/>
+                </lightning:tab>-->
+            </lightning:tabset>
+        </lightning:card>
+        
+        <aura:set attribute="else">
+            <lightning:card class="noMatchPanel">
+                *** No match is scheduled for today ***
+            </lightning:card>
+        </aura:set>
+    </aura:if>
+    </aura:if>
+    
+</aura:component>

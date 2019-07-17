@@ -1,0 +1,41 @@
+<aura:component controller="WorldCupController" implements="forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="player" type="Player__c" default="{sobjectType : 'Player__c',
+                                                            'Name' : '',
+                                                            'Picture__c' : ''
+                                                            }"/>
+    
+    <aura:attribute name="team" type="Team__c" default="{sobjectType : 'Team__c',
+                                                            'Name' : '',
+                                                            'Flag_Icon__c' : ''
+                                                            }"/>
+    <aura:attribute name="isPlayer" type="Boolean" default="true"/>
+    <aura:attribute name="isMatch1" type="Boolean" default="true"/>
+    
+    <aura:attribute name="prediction" type="Match_Prediction__c" default="{'sobjectType':'Match_Prediction__c', 
+                                                                               'Match__c':'',
+                                                                               'Bidder__c':'',
+                                                                               'Winning_Team_Bid__c':'',
+                                                                               'ManOfMatch_Bid__c':''
+                                                                               }"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!--<aura:attribute name="parentMethod" type="Aura.Action"/>-->
+    <aura:registerEvent name="predictionDone" type="c:PredictionEvent" />
+    
+    <lightning:layout>
+        <lightning:layoutItem size="4">
+        	<aura:if isTrue="{!v.isPlayer}">
+                <lightning:formattedRichText value="{!v.player.Picture__c}"/>
+                <ui:outputText value="{!v.player.Name}"/>
+            <aura:set attribute="else">
+                <lightning:formattedRichText value="{!v.team.Flag_Icon__c}"/>
+                <ui:outputText value="{!v.team.Name}"/>
+            </aura:set>
+            </aura:if>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem size="4">
+        	<lightning:button variant="success" name="confirm" label="Confirm Selection" onclick="{!c.handleConfirm}"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

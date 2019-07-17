@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="predictionStatusForPlayer" type="Boolean" default="false"/>
+    <aura:attribute name="predictionStatusForTeam" type="Boolean" default="false"/>
+    <aura:attribute name="isMatch1" type="Boolean" default="true"/>
+</aura:event>

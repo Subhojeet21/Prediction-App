@@ -1,0 +1,11 @@
+.THIS .predictionTab{
+   margin-left:25%
+}
+
+.THIS.noMatchPanel{
+    text-align: inherit;
+    font-weight: bolder;
+    color: goldenrod;
+    font-size: large;
+    border-width: inherit;
+}

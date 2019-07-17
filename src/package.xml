@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>*</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Bidder_Result__c</members>
+        <members>Error_Log__c</members>
+        <members>Final_Result_Summary__c</members>
+        <members>Match_Prediction__c</members>
+        <members>Match_Result__c</members>
+        <members>Match__c</members>
+        <members>Player__c</members>
+        <members>Prediction_Summary_Report</members>
+        <members>Team__c</members>
+        <members>World_Cup_2019</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Communities_Shared_Document_Folder/ICCWC_jpg</members>
+        <name>Document</name>
+    </types>
+    <types>
+        <members>unfiled$public/SendReminder</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>World Cup Community</members>
+        <members>World Cup Community Plus</members>
+        <members>World Cup Community Plus Login</members>
+        <members>World Cup Partner Community</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>World_Cup_Prediction_Summary/MOM_prediction_Accuracy_KkL</members>
+        <members>World_Cup_Prediction_Summary/MOM_prediction_Accuracy_This_Week_9yl</members>
+        <members>World_Cup_Prediction_Summary/Man_of_the_match_Probability_ixK</members>
+        <members>World_Cup_Prediction_Summary/New_Final_Result_Summaries_Report_LLK</members>
+        <members>World_Cup_Prediction_Summary/Points_Trend_Anaslysis_Hsr</members>
+        <members>World_Cup_Prediction_Summary/Test_MOM_Precent_zTm</members>
+        <members>World_Cup_Prediction_Summary/Winner_Prediction_Accuracy_This_Week_lpi</members>
+        <members>World_Cup_Prediction_Summary/Winner_Prediction_Accuracy_ebz</members>
+        <members>World_Cup_Prediction_Summary/Winner_Probability_O7W</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>Match_With_Bidder_Result</members>
+        <name>ReportType</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <version>46.0</version>
+</Package>

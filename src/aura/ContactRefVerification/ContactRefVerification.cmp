@@ -1,0 +1,12 @@
+<aura:component controller="WorldCupController" implements="forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="referenceId" type="String" default="" required="true"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:registerEvent name="verifyEvt" type="c:RefVerifyEvent" />
+    
+    <ui:outputText aura:id="errorId" value="*Invalid Reference Id. Please enter the correct Id" class="errorMsg slds-hide"/>
+    <ui:outputText value="Please Enter your unique Reference Id :"/>
+    <ui:inputText value="{!v.referenceId}" />
+    
+    <lightning:button class="buttonStyle" variant="success" name="verify" label="Verify" onclick="{!c.doVerify}"/>
+</aura:component>
