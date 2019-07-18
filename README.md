@@ -12,3 +12,7 @@ cd.PreferencesNotifyOnVisit=false; <br/>
 cd.PreferencesPasswordRequired=false; <br/>
 cd.PreferencesAllowOriginalDownload= true; <br/>
 insert cd;
+
+# use the "ContentDownloadUrl" from "ContentDistribution" object in the community page or any other external page
+
+select id, DistributionPublicUrl, PdfDownloadUrl, ContentDownloadUrl from ContentDistribution where name = 'DrainedWCTrophy'
