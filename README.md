@@ -1,3 +1,12 @@
+# DEMO:
+<div align="center">
+  <a href="https://youtu.be/gH_m2_kBZi0"><img src="https://img.youtube.com/vi/gH_m2_kBZi0/0.jpg" alt="IMAGE ALT TEXT"></a>
+</div>
+
+# More Detail:
+
+https://techietips99.wordpress.com/2019/05/20/predict-compare-an-app-to-predict-winner-man-of-the-match-for-every-match-in-icc-world-cup/
+
 # Prediction-App
 
 # Upload an image file in File and then execute a below script so that it can be used in home community page: 
